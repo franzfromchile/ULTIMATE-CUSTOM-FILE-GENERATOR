@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+
+    <style>
+        body {
+            padding: 10px;
+            margin: 0;
+        }
+        .archivo {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        input {
+            padding: 0px;
+        }
+
+        #data {
+            width: 250px;
+        }
+
+        #nombre {
+            width: 120px;
+        }
+
+        #formato {
+            width: 60px;
+        }
+
+        #download {
+            all: unset;
+            background: url("download.png");
+            background-size: contain;
+            color: #FFFFFF00;
+           display: block;
+          
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="archivo">
+        <input id="data" placeholder="data">
+        <span>|</span>
+        <input id="name" placeholder="file name">
+        <span>.</span>
+        <input id="ext" placeholder="file format">
+
+
+  <script>
+          function download() {
+    const data = document.getElementById("data").value;
+    const name = document.getElementById("name").value.trim();
+    const ext = document.getElementById("ext").value.trim().replace(/^\./, "");
+
+    if (!name || !ext) return;
+
+    const fileName = `${name}.${ext}`;
+
+    const blob = new Blob([data], {
+        type: "application/octet-stream"
+    });
+
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = fileName;
+    a.style.display = "none";
+
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+          }
+  </script>
+  </div>
+          <button onclick="download()" id="download">Download</button>
+  <div id="guia">
+      <p>
+          [data] input: input your file content. <br>
+          [file name] input: input your file name. <br>
+          [file format] input: input your file format (like .html, .json, etc).
+      </p>
+  </div>
+  </body>
+</html>
